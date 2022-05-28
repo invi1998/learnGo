@@ -60,6 +60,18 @@ func sum(numbers ...int) int {
 	return s
 }
 
+func swap(a, b int) {
+	b, a = a, b
+}
+
+func swap2(a, b *int) {
+	*b, *a = *a, *b
+}
+
+func swap3(a, b int) (int, int) {
+	return b, a
+}
+
 func main() {
 	if result, err := eval(3, 4, "x"); err != nil {
 		fmt.Println("Error:", err)
@@ -79,4 +91,15 @@ func main() {
 	))
 
 	fmt.Println(sum(1, 2, 3, 4, 5, 6))
+
+	a, b := 2, 3
+	swap(a, b)
+	fmt.Println(a, b) // 2, 3	从运行结果上看，GO函数默认的参数传递方式是值传递
+
+	swap2(&a, &b)
+	fmt.Println(a, b) // 3， 2  改成指针传值后，就得到我们想要的效果了
+
+	a, b = swap3(a, b)
+	fmt.Println(a, b) //  2, 3
+
 }
