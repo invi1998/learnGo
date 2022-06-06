@@ -5,6 +5,40 @@ import (
 	"github.com/invi1998/learnGo/tree"
 )
 
+//想在Node 的基础上扩充一个后续遍历的方法
+type myTreeNode struct {
+	node *tree.Node
+}
+
+func (myNode *myTreeNode) postOrder() {
+	if myNode == nil || myNode.node == nil {
+		return
+	}
+
+	left := myTreeNode{myNode.node.Left}
+	left.postOrder()
+	right := myTreeNode{myNode.node.Right}
+	right.postOrder()
+	myNode.node.Print()
+}
+
+// 内嵌 Embedding
+type myTreeNode2 struct {
+	*tree.Node
+}
+
+func (myNode *myTreeNode2) postOrder2() {
+	if myNode == nil || myNode.Node == nil {
+		return
+	}
+
+	left := myTreeNode2{myNode.Left}
+	left.postOrder2()
+	right := myTreeNode2{myNode.Right}
+	right.postOrder2()
+	myNode.Print()
+}
+
 func main() {
 	var root tree.Node
 	fmt.Println(root)
@@ -63,4 +97,19 @@ func main() {
 	//5
 	//100
 
+	myroot := myTreeNode{&root}
+	myroot.postOrder()
+	//2
+	//0
+	//4
+	//5
+	//100
+
+	myroot2 := myTreeNode2{&root}
+	myroot2.postOrder2()
+	//2
+	//0
+	//4
+	//5
+	//100
 }
