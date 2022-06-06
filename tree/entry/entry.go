@@ -39,6 +39,11 @@ func (myNode *myTreeNode2) postOrder2() {
 	myNode.Print()
 }
 
+// TraverseMid 重载 中序遍历
+func (myNode *myTreeNode2) TraverseMid() {
+	fmt.Println("this method is shadowed")
+}
+
 func main() {
 	var root tree.Node
 	fmt.Println(root)
@@ -112,4 +117,41 @@ func main() {
 	//4
 	//5
 	//100
+
+	fmt.Println("--------------------------------------------------------------------------------------")
+	root2 := myTreeNode2{&tree.Node{Value: 3}}
+	root2.Left = &tree.Node{}
+	root2.Right = &tree.Node{5, nil, nil}
+	root2.Right.Left = new(tree.Node)
+	root2.Left.Right = tree.CreateNode(2)
+	root2.Right.Left.Setvalue(4)
+
+	fmt.Println("In-order traversal: ")
+	root2.TraverseMid()
+	//In-order traversal:
+	//0
+	//2
+	//3
+	//0
+	//5
+	//重载之后，执行的就是
+	//this method is shadowed
+
+	//当然，这里如何跳过这层重载，去调用到源结构里的那个方法呢
+	root2.Node.TraverseMid()
+	//0
+	//2
+	//3
+	//0
+	//5
+
+	fmt.Println("My own post-order traversal")
+	root2.postOrder2()
+	//My own post-order traversal
+	//2
+	//0
+	//0
+	//5
+	//3
+
 }
